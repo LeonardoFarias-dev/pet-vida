@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Lista de Espera - PetVida</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+
+<body>
+
+    <h1>⏳ Minha Lista de Espera</h1>
+
+
+    {% if espera %}
+
+        {% for item in espera %}
+
+            <div>
+
+                <h3>
+                    🐾 {{ item["pet_nome"] }}
+                </h3>
+
+                <p>
+                    Serviço:
+                    {{ item["servico"] }}
+                </p>
+
+                <p>
+                    Data:
+                    {{ item["data"] }}
+                </p>
+
+                <p>
+                    Horário:
+                    {{ item["horario"] }}
+                </p>
+
+                <p>
+                    Status:
+                    {{ item["status"] }}
+                </p>
+
+
+                {% if item["status"] == "aguardando" %}
+
+                    <form
+                        action="/sair_lista_espera/{{ item['id'] }}"
+                        method="POST"
+                    >
+
+                        <button type="submit">
+                            Sair da lista
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+            Você não está aguardando por nenhum horário.
+        </p>
+
+    {% endif %}
+
+
+    <a href="/agendar">
+        Voltar para agendamento
+    </a>
+
+    <br><br>
+
+    <a href="/">
+        Voltar para o perfil
+    </a>
+
+</body>
+
+</html>

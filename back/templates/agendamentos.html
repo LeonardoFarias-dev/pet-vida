@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Meus Agendamentos - PetVida</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+
+<body>
+
+    <h1>📋 Meus Agendamentos</h1>
+
+
+    {% if agendamentos %}
+
+        {% for agendamento in agendamentos %}
+
+            <div>
+
+                <h2>
+                    🐾 {{ agendamento["pet_nome"] }}
+                </h2>
+
+                <p>
+                    Serviço:
+                    {{ agendamento["servico"] }}
+                </p>
+
+                <p>
+                    Data:
+                    {{ agendamento["data"] }}
+                </p>
+
+                <p>
+                    Horário:
+                    {{ agendamento["horario"] }}
+                </p>
+
+                <p>
+                    Status:
+                    {{ agendamento["status"] }}
+                </p>
+
+
+                {% if agendamento["status"] == "confirmado" %}
+
+                    <form
+                        action="/cancelar_agendamento/{{ agendamento['id'] }}"
+                        method="POST"
+                        style="display:inline;"
+                        onsubmit="return confirm(
+                            'Deseja cancelar este agendamento?'
+                        );"
+                    >
+
+                        <button type="submit">
+                            ❌ Cancelar
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+            Você ainda não possui agendamentos.
+        </p>
+
+    {% endif %}
+
+
+    <br>
+
+    <a href="/agendar">
+        <button>
+            📅 Novo agendamento
+        </button>
+    </a>
+
+
+    <br><br>
+
+    <a href="/">
+        Voltar
+    </a>
+
+</body>
+</html>

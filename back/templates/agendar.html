@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Agendamento - PetVida</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+
+<body>
+
+    <h1>📅 Agendar atendimento</h1>
+
+
+    <h2>1. Escolha a data</h2>
+
+    <form
+        action="/agendar"
+        method="GET"
+    >
+
+        <input
+            type="date"
+            name="data"
+            value="{{ data }}"
+            required
+        >
+
+        <button type="submit">
+            Ver horários
+        </button>
+
+    </form>
+
+
+    {% if data %}
+
+        <hr>
+
+        <h2>
+            2. Escolha o atendimento
+        </h2>
+
+        {% if pets %}
+
+            <form
+                action="/salvar_agendamento"
+                method="POST"
+            >
+
+                <input
+                    type="hidden"
+                    name="data"
+                    value="{{ data }}"
+                >
+
+
+                <label>
+                    Pet:
+                </label>
+
+                <br>
+
+                <select
+                    name="pet_id"
+                    required
+                >
+
+                    <option value="">
+                        Selecione seu pet
+                    </option>
+
+                    {% for pet in pets %}
+
+                        <option value="{{ pet['id'] }}">
+                            {{ pet['nome'] }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+                <br><br>
+
+
+                <label>
+                    Serviço:
+                </label>
+
+                <br>
+
+                <select
+                    name="servico"
+                    required
+                >
+
+                    <option value="">
+                        Selecione
+                    </option>
+
+                    <option value="Banho">
+                        🛁 Banho
+                    </option>
+
+                    <option value="Tosa">
+                        ✂️ Tosa
+                    </option>
+
+                    <option value="Banho e Tosa">
+                        🛁✂️ Banho e Tosa
+                    </option>
+
+                    <option value="Consulta">
+                        🩺 Consulta
+                    </option>
+
+                </select>
+
+
+                <br><br>
+
+
+                <label>
+                    Horário:
+                </label>
+
+                <br>
+
+                <select
+                    name="horario"
+                    required
+                >
+
+                    <option value="">
+                        Selecione
+                    </option>
+
+                    {% for horario in horarios %}
+
+                        {% if horario in ocupados %}
+
+                            <option
+                                value="{{ horario }}"
+                                disabled
+                            >
+                                {{ horario }} — Ocupado
+                            </option>
+
+                        {% else %}
+
+                            <option value="{{ horario }}">
+                                {{ horario }} — Disponível
+                            </option>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </select>
+
+
+                <br><br>
+
+
+                <button type="submit">
+                    ✅ Confirmar agendamento
+                </button>
+
+            </form>
+
+
+        {% else %}
+
+            <p>
+                Você precisa cadastrar um pet
+                antes de agendar.
+            </p>
+
+            <a href="/adicionar_pet">
+                Cadastrar pet
+            </a>
+
+        {% endif %}
+
+    {% endif %}
+
+
+    <hr>
+
+    <a href="/">
+        Voltar para o perfil
+    </a>
+
+</body>
+
+</html>

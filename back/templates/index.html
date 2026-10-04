@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PetVida</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+
+<body>
+
+    <h1>🐾 PetVida</h1>
+
+    <p>{{ mensagem }}</p>
+
+
+    <hr>
+
+    <h2>🔐 Entrar</h2>
+
+    <form action="/login" method="POST">
+
+        <label>Email:</label>
+
+        <br>
+
+        <input
+            type="email"
+            name="email"
+            required
+        >
+
+        <br><br>
+
+        <label>Senha:</label>
+
+        <br>
+
+        <input
+            type="password"
+            name="senha"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Entrar
+        </button>
+
+    </form>
+
+
+    <hr>
+
+    <h2>🐾 Criar conta</h2>
+
+    <form action="/cadastro" method="POST">
+
+        <label>Nome:</label>
+
+        <br>
+
+        <input
+            type="text"
+            name="nome"
+            required
+        >
+
+        <br><br>
+
+        <label>Email:</label>
+
+        <br>
+
+        <input
+            type="email"
+            name="email"
+            required
+        >
+
+        <br><br>
+
+        <label>Senha:</label>
+
+        <br>
+
+        <input
+            type="password"
+            name="senha"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Criar conta
+        </button>
+
+    </form>
+
+
+    <hr>
+
+    <a href="/clinica/login">
+        🏥 Área da clínica
+    </a>
+
+</body>
+</html>

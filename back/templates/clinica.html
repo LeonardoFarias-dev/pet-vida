@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Painel da Clínica - PetVida</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+
+<body>
+
+    <h1>🏥 PetVida Clínica</h1>
+
+    <h2>
+        Olá, {{ nome }}!
+    </h2>
+
+
+    <hr>
+
+
+    <h2>📊 Resumo</h2>
+
+    <p>
+        👤 Tutores:
+        {{ total_tutores }}
+    </p>
+
+    <p>
+        🐾 Pets:
+        {{ total_pets }}
+    </p>
+
+    <p>
+        ⏳ Pessoas na lista de espera:
+        {{ total_espera }}
+    </p>
+
+
+    <hr>
+
+
+    <h2>📅 Agenda</h2>
+
+
+    {% if agendamentos %}
+
+        {% for agendamento in agendamentos %}
+
+            <div>
+
+                <h3>
+                    📅 {{ agendamento["data"] }}
+                    —
+                    🕐 {{ agendamento["horario"] }}
+                </h3>
+
+
+                <p>
+                    🐾 <strong>Pet:</strong>
+                    {{ agendamento["pet_nome"] }}
+                </p>
+
+
+                <p>
+                    👤 <strong>Tutor:</strong>
+                    {{ agendamento["tutor_nome"] }}
+                </p>
+
+
+                <p>
+                    📧 <strong>Email:</strong>
+                    {{ agendamento["tutor_email"] }}
+                </p>
+
+
+                <p>
+                    ✂️ <strong>Serviço:</strong>
+                    {{ agendamento["servico"] }}
+                </p>
+
+
+                <p>
+
+                    <strong>Status:</strong>
+
+                    {% if agendamento["status"] == "confirmado" %}
+
+                        🟢 Confirmado
+
+                    {% elif agendamento["status"] == "concluido" %}
+
+                        🔵 Concluído
+
+                    {% elif agendamento["status"] == "cancelado" %}
+
+                        🔴 Cancelado
+
+                    {% else %}
+
+                        {{ agendamento["status"] }}
+
+                    {% endif %}
+
+                </p>
+
+
+                {% if agendamento["status"] == "confirmado" %}
+
+                    <form
+                        action="/clinica/concluir_agendamento/{{ agendamento['id'] }}"
+                        method="POST"
+                        style="display:inline;"
+                    >
+
+                        <button type="submit">
+
+                            ✅ Concluir atendimento
+
+                        </button>
+
+                    </form>
+
+
+                    <form
+                        action="/clinica/cancelar_agendamento/{{ agendamento['id'] }}"
+                        method="POST"
+                        style="display:inline;"
+                    >
+
+                        <button
+                            type="submit"
+                            onclick="return confirm('Tem certeza que deseja cancelar este agendamento?');"
+                        >
+
+                            ❌ Cancelar
+
+                        </button>
+
+                    </form>
+
+
+                {% elif agendamento["status"] == "concluido" %}
+
+                    <p>
+                        ✅ Atendimento concluído.
+                    </p>
+
+
+                {% elif agendamento["status"] == "cancelado" %}
+
+                    <p>
+                        ❌ Agendamento cancelado.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <p>
+            Não existem agendamentos.
+        </p>
+
+    {% endif %}
+
+
+    <br>
+
+
+    <a href="/clinica/logout">
+        🚪 Sair
+    </a>
+
+</body>
+
+</html>
+

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Perfil - PetVida</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+
+<body>
+
+    <h1>🐾 PetVida</h1>
+
+    <h2>
+        Olá, {{ nome }}!
+    </h2>
+
+
+    {% if notificacoes_nao_lidas > 0 %}
+
+        <p>
+            🔔 Você possui
+            {{ notificacoes_nao_lidas }}
+            nova(s) notificação(ões).
+        </p>
+
+    {% endif %}
+
+
+    <hr>
+
+
+    <h2>🐶 Meus Pets</h2>
+
+
+    {% if pets %}
+
+        {% for pet in pets %}
+
+            <div>
+
+                <h3>
+                    🐾 {{ pet["nome"] }}
+                </h3>
+
+                <p>
+                    Espécie:
+                    {{ pet["especie"] }}
+                </p>
+
+                <p>
+                    Raça:
+                    {{ pet["raca"] or "Não informada" }}
+                </p>
+
+                <p>
+                    Idade:
+                    {{ pet["idade"] }} anos
+                </p>
+
+
+                <a href="/editar_pet/{{ pet['id'] }}">
+                    <button>
+                        ✏️ Editar
+                    </button>
+                </a>
+
+
+                <form
+                    action="/remover_pet/{{ pet['id'] }}"
+                    method="POST"
+                    style="display:inline;"
+                    onsubmit="return confirm(
+                        'Deseja realmente remover este pet?'
+                    );"
+                >
+
+                    <button type="submit">
+                        🗑️ Remover
+                    </button>
+
+                </form>
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+            Você ainda não possui pets cadastrados.
+        </p>
+
+    {% endif %}
+
+
+    <br>
+
+    <a href="/adicionar_pet">
+        <button>
+            ➕ Adicionar pet
+        </button>
+    </a>
+
+
+    <br><br>
+
+
+    <a href="/agendar">
+        <button>
+            📅 Novo agendamento
+        </button>
+    </a>
+
+
+    <br><br>
+
+
+    <a href="/meus_agendamentos">
+        <button>
+            📋 Meus agendamentos
+        </button>
+    </a>
+
+
+    <br><br>
+
+
+    <a href="/lista_espera">
+        <button>
+            ⏳ Minha lista de espera
+        </button>
+    </a>
+
+
+    <br><br>
+
+
+    <a href="/notificacoes">
+        <button>
+            🔔 Notificações
+        </button>
+    </a>
+
+
+    <br><br>
+
+
+    <a href="/logout">
+        Sair
+    </a>
+
+</body>
+
+</html>

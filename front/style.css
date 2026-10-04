@@ -1,0 +1,802 @@
+/* =========================================================
+   PETVIDA — ESTILO GLOBAL
+   ========================================================= */
+
+:root {
+    --verde: #2e7d5b;
+    --verde-escuro: #205a42;
+    --verde-claro: #e8f5ee;
+
+    --azul: #3f7cac;
+    --azul-escuro: #2f6288;
+    --azul-claro: #eaf4fb;
+
+    --fundo: #f5f8f6;
+    --branco: #ffffff;
+
+    --texto: #26332d;
+    --texto-suave: #68756f;
+
+    --borda: #dce6e0;
+
+    --sucesso: #2e8b57;
+    --erro: #d9534f;
+    --aviso: #d89b25;
+
+    --sombra:
+        0 8px 24px rgba(31, 58, 45, 0.08);
+
+    --sombra-hover:
+        0 14px 32px rgba(31, 58, 45, 0.13);
+
+    --raio: 16px;
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background: var(--fundo);
+    color: var(--texto);
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   TIPOGRAFIA
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--verde-escuro);
+    line-height: 1.25;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+}
+
+h3 {
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+small {
+    color: var(--texto-suave);
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a {
+    color: var(--verde);
+    text-decoration: none;
+    font-weight: 600;
+
+    transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+a:hover {
+    color: var(--verde-escuro);
+}
+
+
+/* =========================================================
+   CONTEÚDO
+   ========================================================= */
+
+main {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+.container {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.card {
+    background: var(--branco);
+
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+
+    padding: 24px;
+
+    box-shadow: var(--sombra);
+
+    margin-bottom: 20px;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-hover);
+}
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(240px, 1fr));
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   FORMULÁRIOS
+   ========================================================= */
+
+form {
+    background: var(--branco);
+
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+
+    padding: 26px;
+
+    box-shadow: var(--sombra);
+
+    width: min(560px, 100%);
+
+    margin: 24px auto;
+}
+
+
+/* Formulários pequenos usados em ações */
+form[style*="display:inline"] {
+    display: inline !important;
+
+    background: transparent;
+
+    border: none;
+    box-shadow: none;
+
+    padding: 0;
+    margin: 0 5px 0 0;
+
+    width: auto;
+}
+
+
+/* =========================================================
+   LABELS
+   ========================================================= */
+
+label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--verde-escuro);
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+input,
+select,
+textarea {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    margin-bottom: 16px;
+
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+
+    background: var(--branco);
+    color: var(--texto);
+
+    font-family: inherit;
+    font-size: 1rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #9aa59f;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--verde);
+
+    box-shadow:
+        0 0 0 3px rgba(46, 125, 91, 0.12);
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+
+/* =========================================================
+   BOTÕES
+   ========================================================= */
+
+button,
+.btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+
+    padding: 10px 18px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: var(--verde);
+    color: white;
+
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+button:hover,
+.btn:hover {
+    background: var(--verde-escuro);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px rgba(46, 125, 91, 0.20);
+}
+
+
+/* Botão azul */
+
+.btn-azul {
+    background: var(--azul);
+}
+
+.btn-azul:hover {
+    background: var(--azul-escuro);
+}
+
+
+/* Botão de perigo */
+
+.btn-perigo {
+    background: var(--erro);
+}
+
+.btn-perigo:hover {
+    background: #b83f3b;
+}
+
+
+/* Botão secundário */
+
+.btn-secundario {
+    background: #edf2ef;
+    color: var(--verde-escuro);
+}
+
+.btn-secundario:hover {
+    background: #dce7e1;
+    color: var(--verde-escuro);
+}
+
+
+/* =========================================================
+   CABEÇALHO
+   ========================================================= */
+
+header,
+.header {
+    background: var(--branco);
+
+    border-bottom: 1px solid var(--borda);
+
+    box-shadow:
+        0 2px 12px rgba(31, 58, 45, 0.05);
+
+    padding: 16px 0;
+
+    margin-bottom: 30px;
+}
+
+.header-conteudo {
+    width: min(1100px, 92%);
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.logo {
+    color: var(--verde);
+
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.logo span {
+    color: var(--azul);
+}
+
+
+/* =========================================================
+   NAVEGAÇÃO
+   ========================================================= */
+
+.nav {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+}
+
+.nav a {
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.nav a:hover {
+    background: var(--verde-claro);
+}
+
+
+/* =========================================================
+   PETS
+   ========================================================= */
+
+.pet-card {
+    background: var(--branco);
+
+    border: 1px solid var(--borda);
+
+    border-radius: var(--raio);
+
+    padding: 22px;
+
+    box-shadow: var(--sombra);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.pet-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow: var(--sombra-hover);
+}
+
+.pet-icon {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--verde-claro);
+
+    font-size: 1.5rem;
+
+    margin-bottom: 12px;
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 11px;
+
+    border-radius: 20px;
+
+    font-size: 0.85rem;
+
+    font-weight: 700;
+}
+
+.status-confirmado {
+    background: #e5f5eb;
+    color: #247348;
+}
+
+.status-concluido {
+    background: var(--azul-claro);
+    color: #316789;
+}
+
+.status-cancelado {
+    background: #fdeaea;
+    color: #b23b37;
+}
+
+
+/* =========================================================
+   ESTATÍSTICAS — ÁREA DA CLÍNICA
+   ========================================================= */
+
+.estatistica {
+    background: var(--branco);
+
+    border: 1px solid var(--borda);
+
+    border-radius: var(--raio);
+
+    padding: 22px;
+
+    box-shadow: var(--sombra);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.estatistica:hover {
+    transform: translateY(-3px);
+
+    box-shadow: var(--sombra-hover);
+}
+
+.estatistica-icon {
+    font-size: 1.8rem;
+
+    margin-bottom: 8px;
+}
+
+.estatistica-numero {
+    display: block;
+
+    font-size: 1.8rem;
+
+    font-weight: 800;
+
+    color: var(--verde);
+}
+
+
+/* =========================================================
+   LISTAS
+   ========================================================= */
+
+ul,
+ol {
+    margin: 12px 0 20px 24px;
+}
+
+li {
+    margin-bottom: 7px;
+}
+
+
+/* =========================================================
+   TABELAS
+   ========================================================= */
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: var(--branco);
+
+    border: 1px solid var(--borda);
+
+    border-radius: var(--raio);
+
+    overflow: hidden;
+
+    box-shadow: var(--sombra);
+
+    margin: 20px 0;
+}
+
+th,
+td {
+    padding: 13px 15px;
+
+    text-align: left;
+
+    border-bottom: 1px solid var(--borda);
+}
+
+th {
+    background: var(--verde-claro);
+
+    color: var(--verde-escuro);
+
+    font-weight: 700;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background: #fafcfb;
+}
+
+
+/* =========================================================
+   MENSAGENS / ALERTAS
+   ========================================================= */
+
+.alerta {
+    padding: 14px 16px;
+
+    border-radius: 10px;
+
+    margin-bottom: 18px;
+
+    font-weight: 600;
+}
+
+.alerta-sucesso {
+    background: #e7f5ec;
+    color: #236c43;
+}
+
+.alerta-erro {
+    background: #fdeaea;
+    color: #a73531;
+}
+
+.alerta-aviso {
+    background: #fff5dd;
+    color: #8a6418;
+}
+
+
+/* =========================================================
+   HORIZONTAL RULE
+   ========================================================= */
+
+hr {
+    border: none;
+
+    border-top: 1px solid var(--borda);
+
+    margin: 25px 0;
+}
+
+
+/* =========================================================
+   RODAPÉ
+   ========================================================= */
+
+footer,
+.footer {
+    margin-top: 50px;
+
+    padding: 25px 0;
+
+    text-align: center;
+
+    color: var(--texto-suave);
+
+    font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   BOTÕES / LINKS DE AÇÃO
+   ========================================================= */
+
+.acoes {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    margin-top: 15px;
+}
+
+
+/* =========================================================
+   ANIMAÇÃO SUAVE
+   ========================================================= */
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+main {
+    animation: aparecer 0.35s ease;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    body {
+        font-size: 15px;
+    }
+
+    main {
+        width: 92%;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    h3 {
+        font-size: 1.05rem;
+    }
+
+    .header-conteudo {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .nav {
+        width: 100%;
+    }
+
+    .nav a {
+        padding: 8px 10px;
+    }
+
+    .card,
+    .pet-card,
+    .estatistica {
+        padding: 18px;
+    }
+
+    form {
+        padding: 20px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .acoes {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acoes button,
+    .acoes .btn {
+        width: 100%;
+    }
+
+    table {
+        display: block;
+
+        overflow-x: auto;
+
+        white-space: nowrap;
+    }
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+   ========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(63, 124, 172, 0.35);
+
+    outline-offset: 2px;
+}

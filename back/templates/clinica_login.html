@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+    <title>Área da Clínica - PetVida</title>
+</head>
+
+<body>
+
+    <h1>🏥 PetVida Clínica</h1>
+
+    <h2>Login da clínica</h2>
+
+    <form action="/clinica/login" method="POST">
+
+        <label>Email:</label>
+
+        <br>
+
+        <input
+            type="email"
+            name="email"
+            required
+        >
+
+        <br><br>
+
+        <label>Senha:</label>
+
+        <br>
+
+        <input
+            type="password"
+            name="senha"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Entrar
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/">
+        Voltar
+    </a>
+
+</body>
+
+</html>

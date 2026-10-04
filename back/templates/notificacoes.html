@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Notificações - PetVida</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+
+<body>
+
+    <h1>🔔 Notificações</h1>
+
+
+    {% if notificacoes %}
+
+        {% for notificacao in notificacoes %}
+
+            <div>
+
+                <h3>
+                    {{ notificacao["titulo"] }}
+                </h3>
+
+                <p>
+                    {{ notificacao["mensagem"] }}
+                </p>
+
+                <small>
+                    {{ notificacao["criado_em"] }}
+                </small>
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+            Você não possui notificações.
+        </p>
+
+    {% endif %}
+
+
+    <br>
+
+    <a href="/">
+        Voltar para o perfil
+    </a>
+
+</body>
+
+</html>
