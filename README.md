@@ -31,3 +31,43 @@ O pet shop poderá:
 ## 🚧 Status
 
 Projeto em desenvolvimento.
+🐾 PetVida
+Sistema de gestão para clínica veterinária
+
+Problema
+Clínicas veterinárias podem enfrentar problemas com:
+- excesso de agendamentos;
+- cancelamentos;
+- faltas;
+- horários que ficam disponíveis novamente;
+- dificuldade para organizar a fila de espera.
+
+Solução
+O PetVida permite que tutores:
+- criem uma conta;
+- cadastrem seus pets;
+- agendem atendimentos;
+- acompanhem seus agendamentos;
+- recebam notificações.
+
+A clínica pode:
+- visualizar os agendamentos;
+- acompanhar tutores e pets;
+- gerenciar atendimentos;
+- trabalhar com lista de espera.
+
+Tecnologias
+- HTML
+- CSS
+- JavaScript
+- Python
+- Flask
+- SQLite
+- Git/GitHub
+
+Estrutura do projeto
+back/
+front/
+
+Licença
+MIT
