@@ -1,73 +1,114 @@
-# 🐾 PetShop Agendamento
+# 🐾 PetVida
 
-Sistema web de gerenciamento de agendamentos para pet shops.
+## Sistema de gestão para clínica veterinária
 
-## 🎯 Objetivo
+O **PetVida** é um sistema web desenvolvido para auxiliar na organização de agendamentos e no gerenciamento de atendimentos de uma clínica veterinária.
 
-O projeto tem como objetivo solucionar problemas de organização de horários, superlotação, cancelamentos e esquecimentos de agendamentos.
+## 🎯 Problema
+
+Clínicas veterinárias podem enfrentar problemas relacionados a:
+
+* excesso de agendamentos;
+* cancelamentos;
+* faltas;
+* horários que ficam disponíveis novamente;
+* dificuldade para organizar a fila de espera.
 
 ## 💡 Solução
 
-O sistema permitirá que os tutores:
+O PetVida busca centralizar o gerenciamento dos atendimentos, facilitando a organização da agenda e o acompanhamento dos tutores e seus pets.
 
-* Criem uma conta e façam login
-* Cadastrem seus pets
-* Escolham serviços
-* Consultem horários disponíveis
-* Realizem agendamentos
-* Cancelem ou remarquem horários
-* Recebam lembretes
-* Recebam notificações quando surgir um horário disponível
+### Para os tutores
 
-O pet shop poderá:
+O sistema permite que os tutores:
 
-* Gerenciar a agenda
-* Visualizar os agendamentos
-* Controlar os horários disponíveis
-* Gerenciar cancelamentos
-* Utilizar uma lista de espera
-* Notificar tutores sobre horários liberados
+* criem uma conta;
+* façam login;
+* cadastrem seus pets;
+* agendem atendimentos;
+* acompanhem seus agendamentos;
+* recebam notificações;
+* utilizem a lista de espera quando necessário.
+
+### Para a clínica
+
+A clínica pode:
+
+* visualizar os agendamentos;
+* acompanhar tutores e pets;
+* gerenciar atendimentos;
+* controlar a agenda;
+* gerenciar cancelamentos;
+* trabalhar com lista de espera.
+
+## 🛠️ Tecnologias
+
+* HTML
+* CSS
+* JavaScript
+* Python
+* Flask
+* SQLite
+* Git
+* GitHub
+
+## 📁 Estrutura do projeto
+
+```text
+petvida-clinica/
+├── back/
+│   ├── app.py
+│   ├── database.py
+│   └── templates/
+│
+├── front/
+│   ├── style.css
+│   └── script.js
+│
+├── .gitignore
+├── LICENSE
+└── README.md
+```
 
 ## 🚧 Status
 
-Projeto em desenvolvimento.
-🐾 PetVida
-Sistema de gestão para clínica veterinária
+**Projeto em desenvolvimento.**
 
-Problema
-Clínicas veterinárias podem enfrentar problemas com:
-- excesso de agendamentos;
-- cancelamentos;
-- faltas;
-- horários que ficam disponíveis novamente;
-- dificuldade para organizar a fila de espera.
+O sistema possui funcionalidades de cadastro, login, gerenciamento de pets, agendamentos, notificações, lista de espera e área da clínica.
 
-Solução
-O PetVida permite que tutores:
-- criem uma conta;
-- cadastrem seus pets;
-- agendem atendimentos;
-- acompanhem seus agendamentos;
-- recebam notificações.
+## ▶️ Como executar
 
-A clínica pode:
-- visualizar os agendamentos;
-- acompanhar tutores e pets;
-- gerenciar atendimentos;
-- trabalhar com lista de espera.
+Clone o repositório e entre na pasta do projeto:
 
-Tecnologias
-- HTML
-- CSS
-- JavaScript
-- Python
-- Flask
-- SQLite
-- Git/GitHub
+```bash
+git clone https://github.com/LeonardoFarias-Dev/pet-vida.git
+cd pet-vida
+```
 
-Estrutura do projeto
-back/
-front/
+Entre na pasta do backend:
 
-Licença
-MIT
+```bash
+cd back
+```
+
+Instale o Flask:
+
+```bash
+python3 -m pip install flask
+```
+
+Execute o sistema:
+
+```bash
+python3 app.py
+```
+
+Depois, acesse no navegador:
+
+```text
+http://127.0.0.1:5000
+```
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença **MIT**.
