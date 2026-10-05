@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block titulo %}Meus pets{% endblock %}
+
+{% block conteudo %}
+
+<section class="hero hero-pequeno">
+    <h1>Olá, {{ nome }}! 👋</h1>
+    <p>
+        {% if nao_lidas > 0 %}
+            <a href="{{ url_for('notificacoes') }}">
+                🔔 Você tem {{ nao_lidas }} nova{{ 's' if nao_lidas > 1 }}
+                notificaç{{ 'ões' if nao_lidas > 1 else 'ão' }}.
+            </a>
+        {% else %}
+            Veja seus pets e agende o próximo atendimento.
+        {% endif %}
+    </p>
+
+    <div class="acoes">
+        <a class="btn btn-claro" href="{{ url_for('agendar') }}">📅 Novo agendamento</a>
+        <a class="btn btn-fantasma-claro" href="{{ url_for('adicionar_pet') }}">➕ Adicionar pet</a>
+    </div>
+</section>
+
+{% if proximo %}
+<section class="proximo card">
+    <div class="data-bloco">
+        <span class="dia">{{ proximo['data']|dia }}</span>
+        <span class="mes">{{ proximo['data']|mes_abreviado }}</span>
+    </div>
+    <div class="agendamento-info">
+        <small class="rotulo">Próximo atendimento</small>
+        <h3>{{ proximo['pet_especie']|emoji_pet }} {{ proximo['pet_nome'] }}</h3>
+        <p>
+            {{ proximo['servico']|icone_servico }} {{ proximo['servico'] }}
+            · 🕐 {{ proximo['horario'] }}
+            · {{ proximo['data']|data_br }}
+        </p>
+    </div>
+    <a class="btn btn-secundario" href="{{ url_for('meus_agendamentos') }}">Ver agendamentos</a>
+</section>
+{% endif %}
+
+<div class="titulo-secao">
+    <h2>🐶 Meus pets</h2>
+    {% if pets %}
+        <span class="selo-contador">{{ pets|length }}</span>
+    {% endif %}
+</div>
+
+{% if pets %}
+    <div class="grid">
+        {% for pet in pets %}
+            <article class="pet-card">
+                <div class="pet-icon">{{ pet['especie']|emoji_pet }}</div>
+                <h3>{{ pet['nome'] }}</h3>
+
+                <ul class="detalhes">
+                    <li><span>Espécie</span> {{ pet['especie'] }}</li>
+                    <li><span>Raça</span> {{ pet['raca'] or 'Não informada' }}</li>
+                    <li>
+                        <span>Idade</span>
+                        {% if pet['idade'] is not none %}
+                            {{ pet['idade'] }} {{ 'ano' if pet['idade'] == 1 else 'anos' }}
+                        {% else %}
+                            Não informada
+                        {% endif %}
+                    </li>
+                </ul>
+
+                <div class="acoes">
+                    <a class="btn btn-secundario btn-pequeno"
+                       href="{{ url_for('editar_pet', pet_id=pet['id']) }}">✏️ Editar</a>
+
+                    <form
+                        class="inline"
+                        action="{{ url_for('remover_pet', pet_id=pet['id']) }}"
+                        method="POST"
+                        data-confirm="Deseja realmente remover {{ pet['nome'] }}? Os agendamentos confirmados dele serão cancelados."
+                    >
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-perigo-suave btn-pequeno">🗑️ Remover</button>
+                    </form>
+                </div>
+            </article>
+        {% endfor %}
+
+        <a class="pet-card pet-card-novo" href="{{ url_for('adicionar_pet') }}">
+            <span class="mais">＋</span>
+            <strong>Adicionar pet</strong>
+        </a>
+    </div>
+{% else %}
+    <section class="vazio">
+        <div class="vazio-icone">🐕</div>
+        <h3>Nenhum pet por aqui ainda</h3>
+        <p>Cadastre seu primeiro pet para poder agendar atendimentos.</p>
+        <a class="btn" href="{{ url_for('adicionar_pet') }}">➕ Adicionar pet</a>
+    </section>
+{% endif %}
+
+<div class="atalhos">
+    <a class="atalho" href="{{ url_for('meus_agendamentos') }}">📋 <span>Meus agendamentos</span></a>
+    <a class="atalho" href="{{ url_for('lista_espera') }}">⏳ <span>Minha lista de espera</span></a>
+    <a class="atalho" href="{{ url_for('notificacoes') }}">
+        🔔 <span>Notificações</span>
+        {% if nao_lidas > 0 %}<em class="contador">{{ nao_lidas }}</em>{% endif %}
+    </a>
+</div>
+
+{% endblock %}

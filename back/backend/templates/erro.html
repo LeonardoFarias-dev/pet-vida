@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ titulo_erro }}{% endblock %}
+
+{% block conteudo %}
+<section class="vazio vazio-grande">
+    <div class="vazio-icone">😿</div>
+    <h1>{{ titulo_erro }}</h1>
+    <p>{{ texto_erro }}</p>
+    <a class="btn" href="{{ url_for('inicio') }}">Voltar ao início</a>
+</section>
+{% endblock %}

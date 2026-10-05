@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block titulo %}Lista de espera{% endblock %}
+
+{% block conteudo %}
+
+<div class="cabecalho-pagina cabecalho-com-acao">
+    <div>
+        <h1>⏳ Minha lista de espera</h1>
+        <p>Avisaremos você quando um horário ocupado for liberado.</p>
+    </div>
+    <a class="btn" href="{{ url_for('agendar') }}">📅 Ir para agendamento</a>
+</div>
+
+{% if espera %}
+    <div class="lista">
+        {% for item in espera %}
+            <article class="agendamento">
+                <div class="data-bloco">
+                    <span class="dia">{{ item['data']|dia }}</span>
+                    <span class="mes">{{ item['data']|mes_abreviado }}</span>
+                </div>
+
+                <div class="agendamento-info">
+                    <h3>{{ item['pet_especie']|emoji_pet }} {{ item['pet_nome'] }}</h3>
+                    <p>
+                        {{ item['servico']|icone_servico }} {{ item['servico'] }}
+                        · 🕐 {{ item['horario'] }}
+                        · {{ item['data']|data_br }}
+                    </p>
+                </div>
+
+                <span class="status status-{{ item['status'] }}">
+                    {{ item['status']|rotulo_status }}
+                </span>
+
+                {% if item['status'] == 'notificado' %}
+                    <a class="btn btn-pequeno"
+                       href="{{ url_for('agendar', data=item['data']) }}">Agendar agora</a>
+                {% endif %}
+
+                {% if item['status'] in ['aguardando', 'notificado'] %}
+                    <form
+                        class="inline"
+                        action="{{ url_for('sair_lista_espera', espera_id=item['id']) }}"
+                        method="POST"
+                        data-confirm="Deseja sair desta lista de espera?"
+                    >
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-secundario btn-pequeno">Sair da lista</button>
+                    </form>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <section class="vazio">
+        <div class="vazio-icone">⏳</div>
+        <h3>Você não está aguardando nenhum horário</h3>
+        <p>Quando um horário estiver ocupado, você poderá entrar na lista de espera pela tela de agendamento.</p>
+        <a class="btn" href="{{ url_for('agendar') }}">📅 Ir para agendamento</a>
+    </section>
+{% endif %}
+
+<p><a class="link-voltar" href="{{ url_for('inicio') }}">← Voltar para o perfil</a></p>
+
+{% endblock %}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>{% block titulo %}PetVida{% endblock %} · PetVida</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+    >
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+
+    {% set caminho = request.path %}
+
+    <header class="header">
+        <div class="header-conteudo">
+
+            {% if session.get('clinica_id') %}
+                <a class="logo" href="{{ url_for('clinica') }}">
+                    🏥 Pet<span>Vida</span> <small class="logo-selo">Clínica</small>
+                </a>
+            {% else %}
+                <a class="logo" href="{{ url_for('inicio') }}">
+                    🐾 Pet<span>Vida</span>
+                </a>
+            {% endif %}
+
+            <nav class="nav" aria-label="Navegação principal">
+
+                {% if session.get('usuario_id') %}
+
+                    <a href="{{ url_for('inicio') }}"
+                       class="{{ 'ativo' if caminho == '/' }}">Meus pets</a>
+                    <a href="{{ url_for('agendar') }}"
+                       class="{{ 'ativo' if caminho == '/agendar' }}">Agendar</a>
+                    <a href="{{ url_for('meus_agendamentos') }}"
+                       class="{{ 'ativo' if caminho == '/meus_agendamentos' }}">Agendamentos</a>
+                    <a href="{{ url_for('lista_espera') }}"
+                       class="{{ 'ativo' if caminho == '/lista_espera' }}">Espera</a>
+                    <a href="{{ url_for('notificacoes') }}"
+                       class="{{ 'ativo' if caminho == '/notificacoes' }}">
+                        🔔
+                        {% if nao_lidas > 0 %}
+                            <span class="contador">{{ nao_lidas }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="{{ url_for('logout') }}" class="nav-sair">Sair</a>
+
+                {% elif session.get('clinica_id') %}
+
+                    <a href="{{ url_for('clinica') }}"
+                       class="{{ 'ativo' if caminho == '/clinica' }}">Painel</a>
+                    <a href="{{ url_for('clinica_logout') }}" class="nav-sair">Sair</a>
+
+                {% else %}
+
+                    <a href="{{ url_for('inicio') }}"
+                       class="{{ 'ativo' if caminho == '/' }}">Início</a>
+                    <a href="{{ url_for('clinica_login') }}"
+                       class="{{ 'ativo' if caminho == '/clinica/login' }}">🏥 Área da clínica</a>
+
+                {% endif %}
+
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% if mensagens %}
+                <div class="mensagens">
+                    {% for categoria, texto in mensagens %}
+                        <div class="alerta alerta-{{ categoria }}" role="status">
+                            {{ texto }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block conteudo %}{% endblock %}
+
+    </main>
+
+    <footer class="footer">
+        <p>🐾 PetVida — cuidado e carinho para o seu melhor amigo</p>
+    </footer>
+
+</body>
+</html>

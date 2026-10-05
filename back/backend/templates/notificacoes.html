@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block titulo %}Notificações{% endblock %}
+
+{% block conteudo %}
+
+<div class="cabecalho-pagina">
+    <h1>🔔 Notificações</h1>
+    <p>Novidades sobre seus agendamentos e lista de espera.</p>
+</div>
+
+{% if notificacoes %}
+    <div class="lista">
+        {% for notificacao in notificacoes %}
+            <article class="notificacao {{ 'notificacao-nova' if notificacao['lida'] == 0 }}">
+                <div class="notificacao-ponto" aria-hidden="true"></div>
+                <div class="notificacao-corpo">
+                    <h3>
+                        {{ notificacao['titulo'] }}
+                        {% if notificacao['lida'] == 0 %}
+                            <span class="selo-nova">Nova</span>
+                        {% endif %}
+                    </h3>
+                    <p>{{ notificacao['mensagem'] }}</p>
+                    <small>{{ notificacao['criado_em']|datahora_br }}</small>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <section class="vazio">
+        <div class="vazio-icone">🔕</div>
+        <h3>Nenhuma notificação por enquanto</h3>
+        <p>Quando houver novidades, elas aparecerão aqui.</p>
+    </section>
+{% endif %}
+
+<p><a class="link-voltar" href="{{ url_for('inicio') }}">← Voltar para o perfil</a></p>
+
+{% endblock %}
