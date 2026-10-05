@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block titulo %}Bem-vindo{% endblock %}
+
+{% block conteudo %}
+
+<section class="hero">
+    <span class="selo">🐾 Cuidado com carinho</span>
+    <h1>Banho, tosa e consulta para o seu pet em poucos cliques</h1>
+    <p>{{ mensagem }} Cadastre seus pets, escolha o melhor horário e receba avisos quando uma vaga for liberada.</p>
+</section>
+
+<div class="auth-grid">
+
+    <!-- ENTRAR -->
+    <form class="form-card" action="{{ url_for('login') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <h2>🔐 Entrar</h2>
+        <p class="texto-suave">Acesse sua conta para gerenciar seus pets.</p>
+
+        <div class="campo">
+            <label for="login-email">Email</label>
+            <input
+                type="email"
+                id="login-email"
+                name="email"
+                placeholder="voce@email.com"
+                autocomplete="email"
+                required
+            >
+        </div>
+
+        <div class="campo">
+            <label for="login-senha">Senha</label>
+            <div class="campo-senha">
+                <input
+                    type="password"
+                    id="login-senha"
+                    name="senha"
+                    placeholder="Sua senha"
+                    autocomplete="current-password"
+                    required
+                >
+                <button
+                    type="button"
+                    class="btn-senha"
+                    data-toggle-password="#login-senha"
+                >Mostrar</button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-bloco">Entrar</button>
+    </form>
+
+    <!-- CRIAR CONTA -->
+    <form class="form-card" action="{{ url_for('cadastro') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <h2>✨ Criar conta</h2>
+        <p class="texto-suave">É rápido e gratuito.</p>
+
+        <div class="campo">
+            <label for="cad-nome">Nome</label>
+            <input
+                type="text"
+                id="cad-nome"
+                name="nome"
+                placeholder="Seu nome"
+                autocomplete="name"
+                maxlength="80"
+                required
+            >
+        </div>
+
+        <div class="campo">
+            <label for="cad-email">Email</label>
+            <input
+                type="email"
+                id="cad-email"
+                name="email"
+                placeholder="voce@email.com"
+                autocomplete="email"
+                required
+            >
+        </div>
+
+        <div class="campo">
+            <label for="cad-senha">Senha</label>
+            <div class="campo-senha">
+                <input
+                    type="password"
+                    id="cad-senha"
+                    name="senha"
+                    placeholder="Mínimo de 6 caracteres"
+                    autocomplete="new-password"
+                    minlength="6"
+                    required
+                >
+                <button
+                    type="button"
+                    class="btn-senha"
+                    data-toggle-password="#cad-senha"
+                >Mostrar</button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-azul btn-bloco">Criar conta</button>
+    </form>
+
+</div>
+
+<p class="centro texto-suave">
+    É da clínica?
+    <a href="{{ url_for('clinica_login') }}">🏥 Acesse a área da clínica</a>
+</p>
+
+{% endblock %}

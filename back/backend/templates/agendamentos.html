@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block titulo %}Meus agendamentos{% endblock %}
+
+{% macro cartao(agendamento, permitir_cancelar) %}
+    <article class="agendamento">
+        <div class="data-bloco">
+            <span class="dia">{{ agendamento['data']|dia }}</span>
+            <span class="mes">{{ agendamento['data']|mes_abreviado }}</span>
+        </div>
+
+        <div class="agendamento-info">
+            <h3>{{ agendamento['pet_especie']|emoji_pet }} {{ agendamento['pet_nome'] }}</h3>
+            <p>
+                {{ agendamento['servico']|icone_servico }} {{ agendamento['servico'] }}
+                · 🕐 {{ agendamento['horario'] }}
+                · {{ agendamento['data']|data_br }}
+            </p>
+        </div>
+
+        <span class="status status-{{ agendamento['status'] }}">
+            {{ agendamento['status']|rotulo_status }}
+        </span>
+
+        {% if permitir_cancelar and agendamento['status'] == 'confirmado' %}
+            <form
+                class="inline"
+                action="{{ url_for('cancelar_agendamento', agendamento_id=agendamento['id']) }}"
+                method="POST"
+                data-confirm="Deseja cancelar este agendamento?"
+            >
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-perigo-suave btn-pequeno">❌ Cancelar</button>
+            </form>
+        {% endif %}
+    </article>
+{% endmacro %}
+
+{% block conteudo %}
+
+<div class="cabecalho-pagina cabecalho-com-acao">
+    <div>
+        <h1>📋 Meus agendamentos</h1>
+        <p>Acompanhe seus atendimentos marcados e o histórico.</p>
+    </div>
+    <a class="btn" href="{{ url_for('agendar') }}">📅 Novo agendamento</a>
+</div>
+
+{% if proximos or historico %}
+
+    <div class="titulo-secao"><h2>Próximos</h2></div>
+
+    {% if proximos %}
+        <div class="lista">
+            {% for agendamento in proximos %}
+                {{ cartao(agendamento, true) }}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="texto-suave">Nenhum atendimento futuro marcado.</p>
+    {% endif %}
+
+    {% if historico %}
+        <div class="titulo-secao"><h2>Histórico</h2></div>
+        <div class="lista">
+            {% for agendamento in historico %}
+                {{ cartao(agendamento, false) }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% else %}
+
+    <section class="vazio">
+        <div class="vazio-icone">📅</div>
+        <h3>Você ainda não possui agendamentos</h3>
+        <p>Que tal marcar um banho para o seu pet?</p>
+        <a class="btn" href="{{ url_for('agendar') }}">📅 Novo agendamento</a>
+    </section>
+
+{% endif %}
+
+<p><a class="link-voltar" href="{{ url_for('inicio') }}">← Voltar para o perfil</a></p>
+
+{% endblock %}

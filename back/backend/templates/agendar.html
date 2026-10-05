@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block titulo %}Agendar atendimento{% endblock %}
+
+{% block conteudo %}
+
+<div class="cabecalho-pagina">
+    <h1>📅 Agendar atendimento</h1>
+    <p>Escolha a data, o serviço e o melhor horário para o seu pet.</p>
+</div>
+
+<!-- PASSO 1 — DATA -->
+<section class="card">
+    <h2><span class="passo">1</span> Escolha a data</h2>
+
+    <form
+        class="form-linha"
+        action="{{ url_for('agendar') }}"
+        method="GET"
+    >
+        <div class="campo">
+            <label for="data">Data do atendimento</label>
+            <input
+                type="date"
+                id="data"
+                name="data"
+                value="{{ data }}"
+                min="{{ hoje }}"
+                required
+            >
+        </div>
+        <button type="submit" class="btn">Ver horários</button>
+    </form>
+</section>
+
+{% if data %}
+
+    {% if pets %}
+
+        <!-- PASSO 2 — ATENDIMENTO -->
+        <form
+            class="card"
+            action="{{ url_for('salvar_agendamento') }}"
+            method="POST"
+        >
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="data" value="{{ data }}">
+
+            <h2>
+                <span class="passo">2</span>
+                Escolha o atendimento
+                <small class="texto-suave">· {{ data|data_br }}</small>
+            </h2>
+
+            <div class="campo">
+                <label for="pet_id">Pet</label>
+                <select id="pet_id" name="pet_id" required>
+                    <option value="">Selecione seu pet</option>
+                    {% for pet in pets %}
+                        <option value="{{ pet['id'] }}">
+                            {{ pet['especie']|emoji_pet }} {{ pet['nome'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <fieldset class="campo-grupo">
+                <legend>Serviço</legend>
+                <div class="opcoes opcoes-servicos">
+                    {% for servico in servicos %}
+                        <div class="opcao">
+                            <input
+                                type="radio"
+                                name="servico"
+                                id="servico-{{ loop.index }}"
+                                value="{{ servico['nome'] }}"
+                                required
+                            >
+                            <label for="servico-{{ loop.index }}">
+                                <span class="opcao-icone">{{ servico['icone'] }}</span>
+                                {{ servico['nome'] }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <fieldset class="campo-grupo">
+                <legend>Horário</legend>
+
+                {% if livres %}
+                    <div class="opcoes opcoes-horarios">
+                        {% for horario in horarios %}
+                            <div class="opcao">
+                                {% if horario in passados %}
+                                    <input type="radio" name="horario" id="horario-{{ loop.index }}" value="{{ horario }}" disabled>
+                                    <label for="horario-{{ loop.index }}">
+                                        {{ horario }}<small>Encerrado</small>
+                                    </label>
+                                {% elif horario in ocupados %}
+                                    <input type="radio" name="horario" id="horario-{{ loop.index }}" value="{{ horario }}" disabled>
+                                    <label for="horario-{{ loop.index }}">
+                                        {{ horario }}<small>Ocupado</small>
+                                    </label>
+                                {% else %}
+                                    <input type="radio" name="horario" id="horario-{{ loop.index }}" value="{{ horario }}" required>
+                                    <label for="horario-{{ loop.index }}">
+                                        {{ horario }}<small>Livre</small>
+                                    </label>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alerta alerta-aviso">
+                        Não há horários livres nesta data. Escolha outro dia
+                        ou entre na lista de espera abaixo.
+                    </div>
+                {% endif %}
+            </fieldset>
+
+            {% if livres %}
+                <button type="submit" class="btn btn-bloco">✅ Confirmar agendamento</button>
+            {% endif %}
+        </form>
+
+        <!-- LISTA DE ESPERA -->
+        {% if ocupados %}
+            <form
+                class="card card-destaque"
+                action="{{ url_for('entrar_lista_espera') }}"
+                method="POST"
+            >
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="data" value="{{ data }}">
+
+                <h2>⏳ Queria um horário ocupado?</h2>
+                <p class="texto-suave">
+                    Entre na lista de espera e avisaremos você caso
+                    o horário seja liberado.
+                </p>
+
+                <div class="linha-campos linha-campos-3">
+                    <div class="campo">
+                        <label for="espera-pet">Pet</label>
+                        <select id="espera-pet" name="pet_id" required>
+                            <option value="">Selecione</option>
+                            {% for pet in pets %}
+                                <option value="{{ pet['id'] }}">
+                                    {{ pet['especie']|emoji_pet }} {{ pet['nome'] }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="espera-servico">Serviço</label>
+                        <select id="espera-servico" name="servico" required>
+                            <option value="">Selecione</option>
+                            {% for servico in servicos %}
+                                <option value="{{ servico['nome'] }}">
+                                    {{ servico['icone'] }} {{ servico['nome'] }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="espera-horario">Horário ocupado</label>
+                        <select id="espera-horario" name="horario" required>
+                            <option value="">Selecione</option>
+                            {% for horario in ocupados|sort %}
+                                <option value="{{ horario }}">{{ horario }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-azul">Entrar na lista de espera</button>
+            </form>
+        {% endif %}
+
+    {% else %}
+
+        <section class="vazio">
+            <div class="vazio-icone">🐕</div>
+            <h3>Cadastre um pet primeiro</h3>
+            <p>Você precisa ter pelo menos um pet para agendar.</p>
+            <a class="btn" href="{{ url_for('adicionar_pet') }}">➕ Cadastrar pet</a>
+        </section>
+
+    {% endif %}
+
+{% endif %}
+
+<p><a class="link-voltar" href="{{ url_for('inicio') }}">← Voltar para o perfil</a></p>
+
+{% endblock %}

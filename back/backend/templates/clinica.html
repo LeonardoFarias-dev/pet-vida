@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block titulo %}Painel da clínica{% endblock %}
+
+{% block conteudo %}
+
+<section class="hero hero-pequeno">
+    <h1>Olá, {{ nome }}! 👋</h1>
+    <p>Acompanhe a agenda e os atendimentos do dia.</p>
+</section>
+
+<!-- RESUMO -->
+<section class="grid grid-estatisticas" aria-label="Resumo">
+    <div class="estatistica">
+        <div class="estatistica-icon">📅</div>
+        <span class="estatistica-numero">{{ total_confirmados }}</span>
+        <small>Atendimentos confirmados</small>
+    </div>
+    <div class="estatistica">
+        <div class="estatistica-icon">👤</div>
+        <span class="estatistica-numero">{{ total_tutores }}</span>
+        <small>Tutores</small>
+    </div>
+    <div class="estatistica">
+        <div class="estatistica-icon">🐾</div>
+        <span class="estatistica-numero">{{ total_pets }}</span>
+        <small>Pets</small>
+    </div>
+    <div class="estatistica">
+        <div class="estatistica-icon">⏳</div>
+        <span class="estatistica-numero">{{ total_espera }}</span>
+        <small>Na lista de espera</small>
+    </div>
+</section>
+
+<!-- AGENDA -->
+<div class="titulo-secao">
+    <h2>📅 Agenda</h2>
+
+    <div class="filtros" role="group" aria-label="Filtrar por status">
+        <button type="button" class="filtro ativo" data-filtro="todos">Todos</button>
+        <button type="button" class="filtro" data-filtro="confirmado">Confirmados</button>
+        <button type="button" class="filtro" data-filtro="concluido">Concluídos</button>
+        <button type="button" class="filtro" data-filtro="cancelado">Cancelados</button>
+    </div>
+</div>
+
+{% if agendamentos %}
+    <div class="tabela-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Pet</th>
+                    <th>Tutor</th>
+                    <th>Serviço</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agendamento in agendamentos %}
+                    <tr data-status="{{ agendamento['status'] }}">
+                        <td>{{ agendamento['data']|data_br }}</td>
+                        <td><strong>{{ agendamento['horario'] }}</strong></td>
+                        <td>{{ agendamento['pet_especie']|emoji_pet }} {{ agendamento['pet_nome'] }}</td>
+                        <td>
+                            {{ agendamento['tutor_nome'] }}<br>
+                            <small>{{ agendamento['tutor_email'] }}</small>
+                        </td>
+                        <td>{{ agendamento['servico']|icone_servico }} {{ agendamento['servico'] }}</td>
+                        <td>
+                            <span class="status status-{{ agendamento['status'] }}">
+                                {{ agendamento['status']|rotulo_status }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if agendamento['status'] == 'confirmado' %}
+                                <div class="acoes acoes-tabela">
+                                    <form
+                                        class="inline"
+                                        action="{{ url_for('clinica_concluir_agendamento', agendamento_id=agendamento['id']) }}"
+                                        method="POST"
+                                    >
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-pequeno">✅ Concluir</button>
+                                    </form>
+
+                                    <form
+                                        class="inline"
+                                        action="{{ url_for('clinica_cancelar_agendamento', agendamento_id=agendamento['id']) }}"
+                                        method="POST"
+                                        data-confirm="Tem certeza que deseja cancelar este agendamento?"
+                                    >
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-perigo-suave btn-pequeno">❌ Cancelar</button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <span class="texto-suave">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <p class="vazio-filtro" hidden>Nenhum agendamento com este status.</p>
+{% else %}
+    <section class="vazio">
+        <div class="vazio-icone">📭</div>
+        <h3>Não existem agendamentos</h3>
+        <p>Quando os tutores agendarem, tudo aparecerá aqui.</p>
+    </section>
+{% endif %}
+
+{% endblock %}

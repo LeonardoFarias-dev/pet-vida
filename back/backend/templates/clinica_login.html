@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block titulo %}Área da clínica{% endblock %}
+
+{% block conteudo %}
+
+<div class="cabecalho-pagina centro">
+    <h1>🏥 PetVida Clínica</h1>
+    <p>Acesso exclusivo para a equipe da clínica.</p>
+</div>
+
+<form class="form-card form-estreito" action="{{ url_for('clinica_login') }}" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <h2>Login da clínica</h2>
+
+    <div class="campo">
+        <label for="email">Email</label>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="clinica@petvida.com"
+            autocomplete="username"
+            required
+        >
+    </div>
+
+    <div class="campo">
+        <label for="senha">Senha</label>
+        <div class="campo-senha">
+            <input
+                type="password"
+                id="senha"
+                name="senha"
+                placeholder="Sua senha"
+                autocomplete="current-password"
+                required
+            >
+            <button
+                type="button"
+                class="btn-senha"
+                data-toggle-password="#senha"
+            >Mostrar</button>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-bloco">Entrar</button>
+</form>
+
+<p class="centro"><a class="link-voltar" href="{{ url_for('inicio') }}">← Voltar ao início</a></p>
+
+{% endblock %}
